@@ -9,9 +9,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Product} from "models/Product";
 import {formatAsPrice} from "utils/utils";
 import AddProductToCart from "components/AddProductToCart/AddProductToCart";
-// import axios from 'axios';
-// import API_PATHS from "constants/apiPaths";
-import productList from "./productList.json";
+import axios from 'axios';
+import API_PATHS from "constants/apiPaths";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -21,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
+    backgroundSize: 'contain'
   },
   cardContent: {
     flexGrow: 1,
@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
+  title: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    fontSize: '1.2rem'
+  }
 }));
 
 export default function Products() {
@@ -36,9 +42,8 @@ export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    // axios.get(`${API_PATHS.bff}/product/available/`)
-    //   .then(res => setProducts(res.data));
-    setProducts(productList);
+    axios.get(`${API_PATHS.product}/products`)
+      .then(res => setProducts(res.data));
   }, [])
 
   return (
@@ -48,11 +53,11 @@ export default function Products() {
           <Card className={classes.card}>
             <CardMedia
               className={classes.cardMedia}
-              image="https://source.unsplash.com/random"
+              image={product.coverUrl}
               title="Image title"
             />
             <CardContent className={classes.cardContent}>
-              <Typography gutterBottom variant="h5" component="h2">
+              <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
                 {product.title}
               </Typography>
               <Typography>
