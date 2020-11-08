@@ -10,12 +10,19 @@ export type Product = {
   edition: number,
   publisher: string,
   authors: string[],
-  coverUrl: string,
+  cover_url: string,
   rating: number
 };
 
 export const ProductSchema = Yup.object().shape({
   title: Yup.string().required(),
+  count: Yup.number().required().positive().integer(),
   description: Yup.string(),
-  price: Yup.number().required(),
-});
+  price: Yup.number().required().positive(),
+  published: Yup.string(),
+  edition: Yup.number().positive().integer(),
+  publisher: Yup.string(),
+  authors: Yup.array().of(Yup.string()),
+  cover_url: Yup.string(),
+  rating: Yup.number().positive()
+})

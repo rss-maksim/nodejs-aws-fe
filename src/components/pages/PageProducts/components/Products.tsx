@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import {Product} from "models/Product";
-import {formatAsPrice} from "utils/utils";
+import {formatAsPrice, formatCount} from "utils/utils";
 import AddProductToCart from "components/AddProductToCart/AddProductToCart";
 import axios from 'axios';
 import API_PATHS from "constants/apiPaths";
@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
-    backgroundSize: 'contain'
+    backgroundSize: 'contain',
+    backgroundColor: '#e0e0e0'
   },
   cardContent: {
     flexGrow: 1,
@@ -34,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     fontSize: '1.2rem'
+  },
+  row: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 }));
 
@@ -53,16 +58,21 @@ export default function Products() {
           <Card className={classes.card}>
             <CardMedia
               className={classes.cardMedia}
-              image={product.coverUrl}
+              image={product.cover_url}
               title="Image title"
             />
             <CardContent className={classes.cardContent}>
               <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
                 {product.title}
               </Typography>
-              <Typography>
-                {formatAsPrice(product.price)}
-              </Typography>
+              <div className={classes.row}>
+                <Typography>
+                  {formatAsPrice(product.price)}
+                </Typography>
+                <Typography>
+                  {formatCount(product.count)}
+                </Typography>
+              </div>
             </CardContent>
             <CardActions>
               <AddProductToCart product={product}/>
