@@ -32,7 +32,7 @@ plugins:
 
 custom:
   client:
-    bucketName: kirilko-app2
+    bucketName: rss-store-book-fe-kirilko
     distributionFolder: build
     indexDocument: index.html
     manageResources: false
