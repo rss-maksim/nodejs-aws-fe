@@ -8,14 +8,24 @@ import * as serviceWorker from './serviceWorker';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import axios from 'axios';
 
+// Only for checking purpose
+if (!localStorage.getItem('authorization_token')) {
+  localStorage.setItem('authorization_token', 'cnNzX21ha3NpbTpURVNUX1BBU1NXT1JE')
+}
+
 axios.interceptors.response.use(
   response => {
     return response;
   },
   function(error) {
     console.log('error', error)
-    if (error?.response?.status === 400) {
+
+    const status = error?.response?.status
+    if (status === 400) {
       alert(error?.response?.data?.data);
+    }
+    if (status === 401 || status === 403) {
+      alert(`${status} ${error.response.data?.message}`)
     }
     return Promise.reject(error?.response);
   }
